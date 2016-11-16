@@ -1,0 +1,6 @@
+framework module Pods_ExtrudeHeader {
+  umbrella header "Pods-ExtrudeHeader-umbrella.h"
+
+  export *
+  module * { export * }
+}
