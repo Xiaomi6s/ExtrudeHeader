@@ -7,12 +7,20 @@
 //
 
 import UIKit
+import SnapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate {
 
-    @IBOutlet weak var tableview: UITableView!
+    var tableview: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableview = UITableView.init(frame: CGRect.zero, style: UITableView.Style.plain);
+        self.tableview.dataSource = self;
+        self.tableview.delegate = self;
+        self.view.addSubview(self.tableview);
+        self.tableview.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview();
+        }
         tableview.addExtrudeHeader(ofImage: #imageLiteral(resourceName: "mm"), height: 160, closure: { (header) in
             let view = UIView()
             view.backgroundColor = UIColor.red
