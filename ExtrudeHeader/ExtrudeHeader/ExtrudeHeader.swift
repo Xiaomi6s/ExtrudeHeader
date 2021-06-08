@@ -1,68 +1,58 @@
 //
 //  ExtrudeHeader.swift
-//  ExtrudeHeader
+//  SwiftDemo1
 //
-//  Created by rxj on 2016/11/16.
-//  Copyright © 2016年 renxiaojian. All rights reserved.
+//  Created by rxj on 2021/6/8.
 //
 
 import UIKit
 import SnapKit
 
-typealias ExtrClosure = (ExtrudeHeader) ->Void
+typealias HeaderClosure = (ExtrudeHeader) -> Void
+
+protocol ExtrudeProtocol {
+    func addExtrudeHeader(ofImage image: UIImage?, height: CGFloat, _ closure: @escaping HeaderClosure)
+}
+
+extension UIScrollView: ExtrudeProtocol {
+    func addExtrudeHeader(ofImage image: UIImage?,
+                          height: CGFloat,
+                          _ closure: @escaping HeaderClosure) {
+        let extrudeHeader = ExtrudeHeader(frame: CGRect(x: 0, y: -height, width: UIScreen.main.bounds.width, height: height))
+         extrudeHeader.scrollView = self
+         extrudeHeader.backImage = image
+         extrudeHeader.headerClosure(closure)
+    }
+}
 
 class ExtrudeHeader: UIView {
     
-    
+    private var headerHeight: CGFloat = 0.0
     var backImage: UIImage? {
-        didSet{
+        didSet {
             guard backImage != nil else {
                 return
             }
             backImgView.image = backImage
-            imgheight =  (scrollView?.frame.width)! * (backImage?.size.height)! / (backImage?.size.width)!
-            heightConstraint?.update(inset: imgheight)
-            
-            
         }
     }
+    private var backImgView: UIImageView!
     weak var scrollView: UIScrollView? {
-        didSet{
+        didSet {
             scrollView?.addSubview(self)
             scrollView?.contentInset.top = headerHeight
         }
     }
-    private var isZoom: Bool = false {
-        didSet{
-            if isZoom != oldValue {
-                isZoomDidChange()
-            }
-        }
-    }
-    private var backImgView: UIImageView!
-    private var headerHeight: CGFloat
-    private var imgheight: CGFloat = 0
-   
-    private var heightConstraint: Constraint?
     override init(frame: CGRect) {
-        headerHeight = frame.height
         super.init(frame: frame)
-        backgroundColor = UIColor.purple
+        self.headerHeight = frame.height
+        backgroundColor = .purple
         setupUI()
         
-        
     }
     
-    convenience init() {
-        self.init(frame: CGRect.zero)
-    }
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        removeObserver()
-        print("ExtrudeHeader deinit")
     }
     
     override func willMove(toSuperview newSuperview: UIView?) {
@@ -75,69 +65,47 @@ class ExtrudeHeader: UIView {
     private func setupUI() {
         backImgView = UIImageView()
         backImgView.contentMode = .scaleAspectFill
+        backImgView.layer.masksToBounds = true
         addSubview(backImgView)
-        backImgView.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            self.heightConstraint = make.height.equalTo(headerHeight).constraint
-            
+        backImgView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
-     func headerClosure(_ closure: ExtrClosure) {
-            closure(self)
-        
-    }
     
-    private func addObserver() {
-        scrollView?.addObserver(self, forKeyPath: "contentOffset", options: .new, context: nil)
-        scrollView?.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
-    }
-    
-    private func removeObserver() {
-        scrollView?.removeObserver(self, forKeyPath: "contentOffset")
-        scrollView?.removeObserver(self, forKeyPath: "contentSize")
+    func headerClosure(_ closure: HeaderClosure) {
+        closure(self)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "contentOffset" {
             scrollViewDidChange()
-            
-        } else if keyPath == "contentSize" {
-            frame = CGRect(x: frame.minX, y: frame.minY, width: (scrollView?.frame.width)!, height: headerHeight)
-            
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
-    }
-    private func scrollViewDidChange() {
-        if (scrollView?.contentOffset.y)! <= CGFloat(-imgheight){
-            isZoom = true
-        } else {
-            isZoom = false
-        }
-        var height = (scrollView?.contentOffset.y)! + headerHeight
-        height = abs(height) + headerHeight
-        let rect = CGRect(x: frame.minX, y:  -height, width: frame.width, height: height)
-        frame = rect
-        
     }
     
-    private func isZoomDidChange() {
-        if isZoom {
-            backImgView.snp.remakeConstraints({ (make) in
-                make.edges.equalToSuperview()
-                
-            })
-            
-        } else {
-            backImgView.snp.remakeConstraints({ (make) in
-                make.bottom.equalToSuperview()
-                make.left.right.equalToSuperview()
-                make.height.equalTo(imgheight)
-                
-            })
+    private func scrollViewDidChange() {
+        guard let scrollView = scrollView else {
+            return
         }
+        let offsetY = scrollView.contentOffset.y
+        print("\(offsetY)")
+        if (offsetY <= 0.0) {
+            var frame = self.frame;
+            frame.origin.y = offsetY;
+            frame.size.height = -offsetY;
+            self.frame = frame;
+        }
+    }
+    
+    private func addObserver() {
+        scrollView?.addObserver(self, forKeyPath: "contentOffset", options: .new, context: nil)
+    }
+    private func removeObserver() {
+        scrollView?.removeObserver(self, forKeyPath: "contentOffset")
+    }
+    
+    deinit {
+        removeObserver()
+        print("ExtrudeHeader deinit")
     }
     
 }

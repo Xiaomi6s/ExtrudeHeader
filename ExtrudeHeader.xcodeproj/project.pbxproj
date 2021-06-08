@@ -14,7 +14,6 @@
 		D72AF4F71DDC4C6E002C4031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D72AF4F61DDC4C6E002C4031 /* Assets.xcassets */; };
 		D72AF4FA1DDC4C6E002C4031 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72AF4F81DDC4C6E002C4031 /* LaunchScreen.storyboard */; };
 		D72AF5051DDC4D4A002C4031 /* ExtrudeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72AF5041DDC4D4A002C4031 /* ExtrudeHeader.swift */; };
-		D72AF5071DDC4D8A002C4031 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72AF5061DDC4D8A002C4031 /* Category.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +26,6 @@
 		D72AF4F91DDC4C6E002C4031 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D72AF4FB1DDC4C6E002C4031 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D72AF5041DDC4D4A002C4031 /* ExtrudeHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtrudeHeader.swift; sourceTree = "<group>"; };
-		D72AF5061DDC4D8A002C4031 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		F8A5C3E6EDB57D2738CDE7C6 /* Pods-ExtrudeHeader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExtrudeHeader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ExtrudeHeader/Pods-ExtrudeHeader.debug.xcconfig"; sourceTree = "<group>"; };
 		FA2DA273B6946698AC1A2A10 /* Pods_ExtrudeHeader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ExtrudeHeader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -89,7 +87,6 @@
 			isa = PBXGroup;
 			children = (
 				D72AF5041DDC4D4A002C4031 /* ExtrudeHeader.swift */,
-				D72AF5061DDC4D8A002C4031 /* Category.swift */,
 			);
 			path = ExtrudeHeader;
 			sourceTree = "<group>";
@@ -220,7 +217,6 @@
 				D72AF4F21DDC4C6E002C4031 /* ViewController.swift in Sources */,
 				D72AF4F01DDC4C6E002C4031 /* AppDelegate.swift in Sources */,
 				D72AF5051DDC4D4A002C4031 /* ExtrudeHeader.swift in Sources */,
-				D72AF5071DDC4D8A002C4031 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

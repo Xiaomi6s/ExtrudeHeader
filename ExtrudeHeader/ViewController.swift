@@ -11,17 +11,12 @@ import SnapKit
 
 class ViewController: UIViewController, UITableViewDelegate {
 
-    var tableview: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableview = UITableView.init(frame: CGRect.zero, style: UITableView.Style.plain);
-        self.tableview.dataSource = self;
-        self.tableview.delegate = self;
-        self.view.addSubview(self.tableview);
-        self.tableview.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview();
-        }
-        tableview.addExtrudeHeader(ofImage: #imageLiteral(resourceName: "mm"), height: 160, closure: { (header) in
+        self.tableView.dataSource = self;
+        self.tableView.delegate = self;
+        tableView.addExtrudeHeader(ofImage: #imageLiteral(resourceName: "mm"), height: 160, { (header) in
             let view = UIView()
             view.backgroundColor = UIColor.red
             header.addSubview(view)
